@@ -1,0 +1,97 @@
+---
+# vars file for etl-env
+env_user: 
+env_user_pass: 
+
+mysql_user: 
+mysql_pass: 
+
+directories:
+  - /iw'
+  - /iw/app.d
+  - /iw/app.d/etl-java
+  - /iw/app.d/public_html
+  - /iw/conf.d
+  - /iw/conf.d/iw
+  - /iw/conf.d/mysql
+  - /iw/conf.d/php
+  - /iw/conf.d/httpd
+  - /iw/etl
+  - /iw/etl/carga
+  - /iw/etl/extracao
+  - /iw/etl/sincroniza
+  - /iw/etl/files
+  - /iw/etl/load
+  - /iw/etl/xml
+  - /iw/lock.d
+  - /iw/lock.d/etl
+  - /iw/scripts
+  - /iw/tmp.d
+  - /iw/log.d
+
+sym_links:
+  - { src: '/iw/conf.d/httpd', dest: '/etc/httpd' }
+  - { src: '/iw/etl/files', dest: '/iw/etl/carga/files' }
+  - { src: '/iw/etl/load', dest: '/iw/etl/carga/load' }
+  - { src: '/iw/etl/xml', dest: '/iw/etl/carga/xml' }
+  - { src: '/iw/etl/files', dest: '/iw/etl/extracao/files' }
+  - { src: '/iw/etl/load', dest: '/iw/etl/extracao/load' }
+  - { src: '/iw/etl/xml', dest: '/iw/etl/extracao/xml' }
+  - { src: '/iw/etl/files', dest: '/iw/etl/sincroniza/files' }
+  - { src: '/iw/etl/load', dest: '/iw/etl/sincroniza/load' }
+  - { src: '/iw/etl/xml', dest: '/iw/etl/sincroniza/xml' }
+  - { src: '/iw/scripts/etladmin', dest: '/iw/scripts/etlclient' }
+  - { src: '/iw/scripts/etladmin', dest: '/iw/scripts/etlrestart' }
+  - { src: '/iw/scripts/etladmin', dest: '/iw/scripts/etlstart' }
+  - { src: '/iw/scripts/etladmin', dest: '/iw/scripts/etlstatus' }
+  - { src: '/iw/scripts/etladmin', dest: '/iw/scripts/etlstop' }
+
+files:
+  - { src: 'common-functions', dest: '/iw/scripts/' }
+  - { src: 'etladmin', dest: '/iw/scripts/' }
+  - { src: 'loadenv', dest: '/iw/scripts/' }
+  - { src: 'env.conf', dest: '/iw/conf.d/iw/' }
+  - { src: 'alias.conf', dest: '/iw/conf.d/iw/' }
+  - { src: 'BD.xml', dest: '/iw/etl/xml/' }
+  - { src: 'httpd.conf', dest: '/iw/conf.d/httpd/conf/' }
+  - { src: '010-mysql-connector-java-5.1.6-bin.jar', dest: '/iw/app.d/etl-java/' }
+  - { src: '020-ojdbc14.jar', dest: '/iw/app.d/etl-java/' }
+  - { src: '030-jtds.jar', dest: '/iw/app.d/etl-java/' }
+  - { src: '040-IW.jar', dest: '/iw/app.d/etl-java/' }
+  #- { src: 'etlMonitor', dest: '/iw/app.d/public_html/' }
+  #- { src: 'webservices', dest: '/iw/app.d/public_html/' }
+  - { src: 'etlmonitor_brux0176.sql', dest: '/tmp/' }
+
+repositories:
+  - https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+  - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+
+packages:
+  - epel-release
+  - vim
+  - java-1.6.0-openjdk-devel
+  - mysql-server
+  - MySQL-python
+  - httpd
+  - php56
+  - php56-php
+  - php56-php-mysqlnd
+  - php56-php-gd
+  - php56-php-mcrypt
+  - php56-php-mbstring
+  - php56-php-xml
+  - php56-php-cli
+  - php56-php-fpm
+
+httpd_old_sym_links:
+  - /etc/httpd/modules
+  - /etc/httpd/logs
+
+httpd_new_sym_links:
+  - { src: '/iw/conf.d/httpd/logs', dest: '/var/log/httpd' }
+  - { src: '/iw/conf.d/httpd/modules', dest: '/usr/lib64/httpd/modules' }
+
+services:
+  - httpd
+  - mysqld
+  - php56-php-fpm

@@ -1,0 +1,32 @@
+---
+- name: Adicionando repositorio MYSQL
+  yum: 
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ repositories }}"
+
+- name: Instalacao dos pacotes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+
+- name: Remover links do httpd antigos
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ httpd_old_sym_links }}"
+
+- name: Criar novos links
+  command: "ln -s {{ item.dest }} {{ item.src }}"
+  with_items: "{{ httpd_new_sym_links }}"
+
+- name: Copiando arquivos
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: iw
+    group: iw
+    mode: 0755
+  with_items: "{{ files }}"
+

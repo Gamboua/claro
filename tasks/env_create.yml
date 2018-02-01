@@ -1,0 +1,24 @@
+---
+- name: Criando usuario iw
+  user:
+    name: "{{ env_user }}"
+    password: "{{ env_user_pass }}"
+    state: present
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: iw
+    group: iw
+  with_items: "{{ directories }}"
+
+- file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    mode: 0755
+    owner: iw
+    group: iw
+    force: yes
+  with_items: "{{ sym_links }}"

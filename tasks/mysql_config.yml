@@ -1,0 +1,24 @@
+---
+- name: Remover test database
+  mysql_db:
+    name: test
+    state: absent
+
+- name: Remover usuarios anonimos
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+
+- name: Restore do banco
+  mysql_db:
+    name: etlmonitor
+    state: import
+    target: /tmp/etlmonitor_brux0176.sql
+
+- name: Criar usuario da aplicacao
+  mysql_user: 
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_pass }}"
+    priv: '*.*:ALL'
+    state: present

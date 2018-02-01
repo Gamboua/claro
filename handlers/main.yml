@@ -1,0 +1,6 @@
+---
+# handlers file for etl-env
+- name: restart httpd
+  service:
+    name: httpd
+    status: restarted

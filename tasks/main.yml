@@ -1,0 +1,10 @@
+---
+# tasks file for etl-env
+
+- include_tasks: env_create.yml
+
+- include_tasks: env_config.yml
+
+- include_tasks: services.yml
+
+- include_tasks: mysql_config.yml
